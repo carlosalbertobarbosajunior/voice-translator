@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  voice-translator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: voice-translator
+    volumes:
+      # Mount input directory for audio files
+      - ./input:/app/input
+      # Mount output directory for translated audio
+      - ./output:/app/output
+      # Mount cache directory to persist downloaded models
+      - ./cache:/root/.cache
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    # For GPU support, uncomment the following lines:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    stdin_open: true
+    tty: true
+    # Override default command
+    command: python main.py --help
+
