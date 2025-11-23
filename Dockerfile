@@ -4,13 +4,15 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies for audio processing
+# Install system dependencies for audio processing and GUI
 RUN apt-get update && apt-get install -y \
     build-essential \
     portaudio19-dev \
     libsndfile1 \
     ffmpeg \
     git \
+    python3-tk \
+    x11-apps \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching

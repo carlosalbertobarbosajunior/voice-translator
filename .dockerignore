@@ -44,10 +44,13 @@ input/
 output/
 
 # Models cache (Hugging Face) - will be downloaded in container
+# Note: Don't exclude the models/ directory (source code), only cache files
 .cache/
-models/
 *.bin
 *.safetensors
+# Exclude only model weight files, not the models source directory
+**/models/*.bin
+**/models/*.safetensors
 
 # OS
 .DS_Store

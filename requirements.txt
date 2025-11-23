@@ -7,4 +7,9 @@ numpy>=1.24.0
 pydub>=0.25.1
 speechrecognition>=3.10.0
 pyaudio>=0.2.14
+pygame>=2.5.0
+flask>=3.0.0
+flask-cors>=4.0.0
+protobuf>=3.20.0
+python-dotenv>=1.0.0
 

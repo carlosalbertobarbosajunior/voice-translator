@@ -16,6 +16,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - PYTHONPATH=/app
+    ports:
+      - "5000:5000"  # Web interface port
     # For GPU support, uncomment the following lines:
     # deploy:
     #   resources:
@@ -27,5 +29,31 @@ services:
     stdin_open: true
     tty: true
     # Override default command
-    command: python main.py --help
+    command: python runWeb.py
+
+  voice-translator-gpu:
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
+    container_name: voice-translator-gpu
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./cache:/root/.cache
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    ports:
+      - "5000:5000"  # Web interface port
+    # For GPU support, uncomment the following lines:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    stdin_open: true
+    tty: true
+    command: python runWeb.py
 

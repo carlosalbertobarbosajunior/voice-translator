@@ -8,6 +8,7 @@ Voice translator using open source AI models from Hugging Face. Translate voice 
 - **Text Translation**: Uses MBART models for high-quality translation
 - **Text-to-Speech (TTS)**: Generates natural-sounding speech in the target language
 - **Multiple Input Methods**: Support for audio files and microphone input
+- **Graphical User Interface**: Easy-to-use GUI with recording, translation, and playback
 - **Extensible Architecture**: Designed to easily add new languages (including future Dovah support via web API)
 
 ## Installation
@@ -109,7 +110,48 @@ docker run --rm -v ${PWD}/input:/app/input -v ${PWD}/output:/app/output voice-tr
 
 ## Usage
 
-### Basic Usage
+### Web Interface (Recommended for Docker)
+
+**Start the web server:**
+
+```bash
+# Native
+python runWeb.py
+
+# Docker (much easier!)
+docker run --rm -p 5000:5000 voice-translator:gpu python runWeb.py
+```
+
+Then open your browser and navigate to: **http://localhost:5000**
+
+The web interface provides:
+- **Language Selection**: Choose source and target languages
+- **Recording**: Click "Start Recording" to begin, "Stop Recording" to finish
+- **Translation**: Automatic transcription and translation after recording
+- **Playback**: Listen to the translated audio directly in the browser
+
+**Advantages of Web Interface:**
+- ✅ No X11 configuration needed
+- ✅ Works perfectly in Docker
+- ✅ Accessible from any device on your network
+- ✅ Modern, responsive design
+- ✅ Works on Windows, Linux, macOS
+
+### Desktop GUI (Alternative)
+
+**Native (Recommended for best performance):**
+
+Launch the desktop GUI application:
+
+```bash
+python runGui.py
+```
+
+**Docker:**
+
+For running desktop GUI in Docker, see [DOCKER_GUI_SETUP.md](DOCKER_GUI_SETUP.md) for detailed instructions (requires X11 setup).
+
+### Command Line Usage
 
 Translate from an audio file:
 ```bash
@@ -159,21 +201,32 @@ voice-translator/
 │       └── languageConfig.py  # Language configuration
 ├── interface/           # User interface modules
 │   ├── audioInput.py    # Audio input handling
+│   ├── audioRecorder.py # Audio recording for GUI
+│   ├── audioPlayer.py   # Audio playback for GUI
+│   ├── gui.py           # Graphical user interface
 │   └── utils/
-├── api/                 # Future web API support
+├── api/                 # Web API and server
+│   ├── webServer.py     # Flask web server
+│   ├── templates/       # HTML templates
+│   │   └── index.html   # Web interface
 │   └── utils/
 ├── prompts/             # Translation prompts
 │   └── utils/
 ├── utils/               # General utilities
-├── main.py              # Main entry point
+├── main.py              # Main entry point (CLI)
+├── runWeb.py            # Web server entry point
+├── runGui.py            # Desktop GUI application entry point
 ├── exampleUsage.py      # Example usage script
 ├── requirements.txt     # Python dependencies
 ├── Dockerfile           # Docker image for CPU
 ├── Dockerfile.gpu       # Docker image for GPU
 ├── docker-compose.yml   # Docker Compose configuration
 ├── DOCKER_GPU_SETUP.md  # NVIDIA Docker runtime setup guide
+├── DOCKER_GUI_SETUP.md  # GUI setup guide for Docker
 ├── check-gpu-docker.sh  # Script to verify GPU Docker setup (Linux)
-└── check-gpu-docker.ps1 # Script to verify GPU Docker setup (Windows/WSL2)
+├── check-gpu-docker.ps1 # Script to verify GPU Docker setup (Windows/WSL2)
+├── run-gui-docker.sh    # Script to run GUI in Docker (Linux/WSL2)
+└── run-gui-docker.ps1   # Script to run GUI in Docker (PowerShell)
 ```
 
 ## Supported Languages
